@@ -78,6 +78,31 @@ class RedBlackTree<T> {
     
    }
 
+   private locateSibling(x: Node1<T>): Node1<T> | null {
+    let xParent = x.parent;
+    //Parent is root. no siblings
+    if (xParent === null) {
+        return null;
+    }
+
+    if (xParent.left === x) {
+        return xParent.right;
+    }
+    return xParent.left;
+   }
+
+   private insertFixUpA(x: Node1<T>) {
+
+   }
+
+   private insertFixUpB(x: Node1<T>) {
+
+   }
+
+   private insertFixUpC(x: Node1<T>) {
+
+   }
+
     /*
     * Deletion
     */
