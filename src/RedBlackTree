@@ -6,9 +6,9 @@
 //Tree keeps track of root for searching and traversal.
 //Can be null (if empty), or a node.
 class RedBlackTree<T> {
-    root: Node1<T> | null;
+    private root: Node1<T> | null;
     //uses comparator for insertions.
-    compare: (a: T, b: T) => number;
+    private compare: (a: T, b: T) => number;
 
     //initializes tree to be initially empty
     constructor(compare: (a: T, b: T ) => number) {
@@ -23,18 +23,58 @@ class RedBlackTree<T> {
     /*
     * Insertion
     */
-    public insert() {
+    public insert(x: T) {
+        //y is parent node for z
+        let xParent = this.locateParent(x);
 
+        //create new node to be inserted
+        let xNode = new Node1<T>(x);
+
+        //update z's parent
+        xNode.parent = xParent;
+
+        //if parent is null, x is the root
+        //if x value is less than parent, then left child
+        //else right child
+        if (xParent === null) {
+            this.root = xNode;
+        } else if (this.compare(xNode.value, xParent.value) < 0) {
+            xParent.left = xNode;
+        } else {
+            xParent.right = xNode;
+        }
+
+        //call insertFixUp to satisfy Red-Black tree properties
+        this.insertFixUp(xNode);
     }
 
     /*
     * helper methods for Insertion
     */
-   private locateParent() {
+   private locateParent(z: T): Node1<T> | null {
+    //Start at root
+    let x = this.root;
+    let y = null;
 
+    //return null if tree is empty
+    if (x === null) {
+        return null;
+    }
+    
+    //traverse as normal BST
+    while(x.left !== null && x.right !== null) {
+        y = x;
+        if (this.compare(z, x.value) < 0) {
+            x = x.left;
+        } else {
+            x = x.right;
+        }
+    }
+    //y is parent node for new node to be inserted
+    return y;
    }
 
-   private insertFixUp() {
+   private insertFixUp(x: Node1<T>) {
     
    }
 
