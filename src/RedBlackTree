@@ -16,4 +16,32 @@ class RedBlackTree<T> {
         this.compare = compare;
     }
 
+    /*
+    * instance methods for RedBlackTree
+    */
+
+    /*
+    * Insertion
+    */
+    public insert() {
+
+    }
+
+    /*
+    * helper methods for Insertion
+    */
+   private locateParent() {
+
+   }
+
+   private insertFixUp() {
+    
+   }
+
+    /*
+    * Deletion
+    */
+   public delete() {
+
+   }
 }
