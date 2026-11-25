@@ -1,0 +1,19 @@
+{
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  },
+  "name": "red-black-tree-implementation",
+  "version": "1.0.0",
+  "description": "Implementation of the Red-Black Tree data structure in Typescript.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

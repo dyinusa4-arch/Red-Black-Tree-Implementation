@@ -1,0 +1,24 @@
+
+//only two valid colors for tree
+type Color = "RED" | "BLACK"
+
+//every node has left, right and parent node, as well
+//as color and their value.
+class Node1<T> {
+    value: T;
+    left: Node1<T> | null;
+    right: Node1<T> | null;
+    parent: Node1<T> | null;
+    color: Color;
+
+    //initialize pointers to null
+    //and set new node color initally
+    //to red before insertion
+    constructor(value: T) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+        this.parent = null;
+        this.color = "RED";
+    }
+}
