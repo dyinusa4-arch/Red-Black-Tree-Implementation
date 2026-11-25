@@ -1,0 +1,16 @@
+/*
+* RedBlackTree represents the entire data structure by keeping
+* track of the root node in the tree.
+*/
+
+//Tree keeps track of root for searching and traversal.
+//Can be null (if empty), or a node.
+class RedBlackTree<T> {
+    root: Node1<T> | null;
+
+    //initializes tree to be initially empty
+    constructor() {
+        this.root = null;
+    }
+
+}
