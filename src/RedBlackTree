@@ -56,18 +56,22 @@ class RedBlackTree<T> {
     /*
     * helper methods for Insertion
     */
+
+    /*
+    * Finds parent for newly inserted node where z is the value
+    * for the new node.
+    * 
+    * At worst, iterates over the height of tree and goes to bottom.
+    * Therefore, locateParent is in O(h).
+    */
    private locateParent(z: T): Node1<T> | null {
     //Start at root
     let x = this.root;
-    let y = null;
-
-    //return null if tree is empty
-    if (x === null) {
-        return null;
-    }
+    let y: Node1<T> | null = null;
     
-    //traverse as normal BST
-    while(x.left !== null && x.right !== null) {
+    //traverse as normal BST.
+    //while there's still somewhere to go
+    while(x !== null) {
         y = x;
         if (this.compare(z, x.value) < 0) {
             x = x.left;
@@ -218,11 +222,11 @@ class RedBlackTree<T> {
     let color = y.color;
     let z: Node1<T>;
     if (x.left === null && x.right !== null) {
-        //let z = x.right;
+        z = x.right;
         this.transplant(x, x.right);
     } else if (x.right === null && x.left !== null) {
         this.transplant(x, x.left);
-    } else if (x.right !== null){
+    } else if (x.right !== null && y.right !== null){
         y = this.treeMin(x.right);
         color = y.color;
         z = y.right;
@@ -235,9 +239,9 @@ class RedBlackTree<T> {
         }
         this.transplant(x, y);
         y.left = x.left;
-        if (y !== null && y.left !== null) {
+        if (z !== null && y.left !== null) {
             y.left.parent = y;
-            y.color = z?.color;
+            y.color = z.color;
         }
     }
     if (color === "BLACK") {
