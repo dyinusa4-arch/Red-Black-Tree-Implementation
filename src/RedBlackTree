@@ -91,8 +91,26 @@ class RedBlackTree<T> {
     return xParent.left;
    }
 
+   /*
+   * Handles case where x's parent and auncle are both red.
+   */
    private insertFixUpA(x: Node1<T>) {
+    while (x.parent !== null && x.parent.color === "RED") {
+        let xAuncle = this.locateSibling(x.parent);
+        //if null, color is black
+        if (xAuncle === null || xAuncle.color === "BLACK") {
+            return;
+        }
 
+        //change their colors to black
+       x.parent.color = "BLACK";
+       xAuncle.color = "BLACK";
+
+        //change x's grandparent's color to red and repreat the process
+        if (x.parent.parent !== null) {
+            x = x.parent.parent;
+        }
+    }
    }
 
    private insertFixUpB(x: Node1<T>) {
