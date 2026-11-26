@@ -97,10 +97,6 @@ class RedBlackTree<T> {
    */
    private insertFixUp(x: Node1<T>) {
     this.insertFixUpA(x);
-    if (x.parent !== null && x.parent.color === "RED") {
-        this.insertFixUpB(x);
-        this.insertFixUpC(x);
-    }
 
     //restores property two of Red Black Trees.
     if (this.root !== null) {
@@ -134,6 +130,7 @@ class RedBlackTree<T> {
         let xAuncle = this.locateSibling(x.parent);
         //if null, color is black
         if (xAuncle === null || xAuncle.color === "BLACK") {
+            this.insertFixUpB(x);
             return;
         }
 
@@ -181,6 +178,7 @@ class RedBlackTree<T> {
         x = xParent;
         this.rightRotate(x);
     }
+    this.insertFixUpC(x);
    }
 
    /*
