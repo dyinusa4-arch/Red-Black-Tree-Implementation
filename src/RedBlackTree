@@ -240,8 +240,15 @@ class RedBlackTree<T> {
     }
    }
 
-   private transplant(x: Node1<T>, xChild: Node1<T>) {
-
+   private transplant(x: Node1<T>, y: Node1<T>) {
+    if (x.parent === null) {
+        this.root = y;
+    } else if (x === x.parent.left) {
+        x.parent.left = y;
+    } else {
+        x.parent.right = y;
+    }
+    y.parent = x.parent;
    }
 
    private treeMin(x: Node1<T>): Node1<T> {
