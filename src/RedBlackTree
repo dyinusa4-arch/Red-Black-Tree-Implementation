@@ -176,10 +176,10 @@ class RedBlackTree<T> {
     //Checks if RL or LR situation and performs appropriate rotation that would put you in case III
     if (xParent !== null && xGrandParent !== null && x === xParent.right && xParent === xGrandParent.left) {
         x = xParent;
-        this.rightRotate(x);
+        this.leftRotate(x);
     } else if (xParent !== null && xGrandParent !== null && x === xParent.left && xParent === xGrandParent.right) {
         x = xParent;
-        this.leftRotate(x);
+        this.rightRotate(x);
     }
    }
 
