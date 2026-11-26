@@ -315,4 +315,16 @@ class RedBlackTree<T> {
     }
     x.color = "BLACK";
    }
+
+   public searchNode(k: T): Node1<T> | null {
+    let x = this.root;
+    while (x !== null && this.compare(k, x.value) !== 0) {
+        if (this.compare(k, x.value) < 0) {
+            x = x.left;
+        } else {
+            x = x.right;
+        }
+    }
+    return x;
+    }
 }
