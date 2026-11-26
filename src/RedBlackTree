@@ -115,6 +115,18 @@ class RedBlackTree<T> {
    }
 
    private insertFixUpB(x: Node1<T>) {
+    
+   }
+
+   private leftRotate(x: Node1<T>) {
+
+   }
+
+   private rightRotate(x: Node1<T>) {
+
+   }
+
+   private insertFixUpC(x: Node1<T>) {
     if (x.parent === null || x.parent.color === "BLACK") {
         return
     }
@@ -131,18 +143,6 @@ class RedBlackTree<T> {
         xParent.color = "BLACK";
         xGrandParent.color = "RED";
     }
-   }
-
-   private leftRotate(x: Node1<T>) {
-
-   }
-
-   private rightRotate(x: Node1<T>) {
-
-   }
-
-   private insertFixUpC(x: Node1<T>) {
-
    }
 
     /*
