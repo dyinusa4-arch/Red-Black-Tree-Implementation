@@ -109,6 +109,7 @@ class RedBlackTree<T> {
         //change x's grandparent's color to red and repreat the process
         if (x.parent.parent !== null) {
             x = x.parent.parent;
+            x.color = "RED";
         }
     }
    }
