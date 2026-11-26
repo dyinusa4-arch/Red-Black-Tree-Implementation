@@ -9,11 +9,14 @@ class RedBlackTree<T> {
     private root: Node1<T> | null;
     //uses comparator for insertions.
     private compare: (a: T, b: T) => number;
+    
+    private size: number;
 
     //initializes tree to be initially empty
     constructor(compare: (a: T, b: T ) => number) {
         this.root = null;
         this.compare = compare;
+        this.size = 0;
     }
 
     /*
@@ -46,6 +49,8 @@ class RedBlackTree<T> {
 
         //call insertFixUp to satisfy Red-Black tree properties
         this.insertFixUp(xNode);
+
+        this.size++;
     }
 
     /*
@@ -238,6 +243,8 @@ class RedBlackTree<T> {
     if (color === "BLACK") {
         this.deleteFixUp(z);
     }
+
+    this.size--;
    }
 
    private transplant(x: Node1<T>, y: Node1<T>) {
@@ -326,5 +333,9 @@ class RedBlackTree<T> {
         }
     }
     return x;
+    }
+
+    public sizeOfTree(): number {
+        return this.size;
     }
 }
