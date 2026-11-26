@@ -252,6 +252,9 @@ class RedBlackTree<T> {
    }
 
    private treeMin(x: Node1<T>): Node1<T> {
+    while (x.left !== null) {
+        x = x.left;
+    }
     return x;
    }
 
