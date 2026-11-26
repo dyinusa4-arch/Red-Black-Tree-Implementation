@@ -24,7 +24,12 @@ class RedBlackTree<T> {
     */
 
     /*
-    * Insertion
+    * Creates node from value x and inserts into this and
+    * restores properties of Red-Black trees after insertion.
+    * 
+    * Calls locateParent and insertFixUp which both take O(h) time.
+    * It also does some constant operations and checks.
+    * Therefore insertion, is in O(h).
     */
     public insert(x: T) {
         //y is parent node for z
@@ -83,6 +88,13 @@ class RedBlackTree<T> {
     return y;
    }
 
+   /*
+   * Restore properties of Red-Black Tree after insertion.
+   *
+   * A is called which takes O(h) time and B and C are called at
+   * most onces which takes O(1) time.
+   * Therefore, insertFixUp is in O(h).
+   */
    private insertFixUp(x: Node1<T>) {
     this.insertFixUpA(x);
     if (x.parent !== null && x.parent.color === "RED") {
@@ -111,6 +123,11 @@ class RedBlackTree<T> {
 
    /*
    * Handles case where x's parent and auncle are both red.
+   *
+   * Reassigns colors of parent, auncle, and grandparent of
+   * x and repeats on grandparent, potentially going to the
+   * root.
+   * Therefore insertFixUpA is in O(h).
    */
    private insertFixUpA(x: Node1<T>) {
     while (x.parent !== null && x.parent.color === "RED") {
@@ -132,23 +149,47 @@ class RedBlackTree<T> {
     }
    }
 
+   /*
+   * Handles case where x's parent is red and auncle is black and 
+   * x is a right child and it's parent is a left or vise-versa.
+   * 
+   * This method does a couple of checks, calls locateSibling which
+   * is in O(1), and then either does a left or right rotation which
+   * is also in O(1).
+   * Therefore, insertFixUpB is in O(1).
+   */
    private insertFixUpB(x: Node1<T>) {
     if (x.parent === null || x.parent.color === "BLACK") {
         return
     }
 
     let xParent = x.parent;
+
+    //checking if auncle is black or null
+    let xAuncle = this.locateSibling(xParent);
+    if (xAuncle !== null && xAuncle.color === "RED"){
+        return;
+    }
+
     let xGrandParent  = xParent.parent;
 
+    //Checks if RL or LR situation and performs appropriate rotation that would put you in case III
     if (xParent !== null && xGrandParent !== null && x === xParent.right && xParent === xGrandParent.left) {
         x = xParent;
         this.rightRotate(x);
-    } else if (xParent !== null && xGrandParent !== null && x === xParent.right && xParent === xGrandParent.right) {
+    } else if (xParent !== null && xGrandParent !== null && x === xParent.left && xParent === xGrandParent.right) {
         x = xParent;
-        this.leftRotate(xGrandParent);
+        this.leftRotate(x);
     }
    }
 
+   /*
+   * Peforms a left rotation on this about the node x.
+   *
+   * Performs a fixed number of operations independent
+   * on the size of this.
+   * Therefore, leftRotation is in O(1).
+   */
    private leftRotate(x: Node1<T>) {
     if (x === null || x.right === null) {
         return;
@@ -172,6 +213,13 @@ class RedBlackTree<T> {
     x.parent = y;
    }
 
+   /*
+   * Peforms a right rotation on this about the node x.
+   *
+   * Performs a fixed number of operations independent
+   * on the size of this.
+   * Therefore, rightRotation is in O(1).
+   */
    private rightRotate(x: Node1<T>) {
     if (x === null || x.left === null) {
         return;
@@ -195,14 +243,31 @@ class RedBlackTree<T> {
     x.parent = y;
    }
 
+   /*
+   * Handles case where x.parent is red, x.auncle is black,
+   * and x and x.parent are both either left or right children.
+   *
+   * Does a fixed amount of checks and constant operations,
+   * calls locateSibling and either left or right rotate which
+   * both are in O(1).
+   * Therefore, insertFixUpC is in O(1).
+   */
    private insertFixUpC(x: Node1<T>) {
     if (x.parent === null || x.parent.color === "BLACK") {
         return
     }
 
     let xParent = x.parent;
-    let xGrandParent  = xParent.parent;
 
+    //checking if auncle is black or null
+    let xAuncle = this.locateSibling(xParent);
+    if (xAuncle !== null && xAuncle.color === "RED"){
+        return;
+    }
+    
+    let xGrandParent = xParent.parent;
+
+    //checking if x and xParent are both left or right children
     if (xParent !== null && xGrandParent !== null && x === xParent.left && xParent === xGrandParent.left) {
         this.rightRotate(xGrandParent);
         xParent.color = "BLACK";
