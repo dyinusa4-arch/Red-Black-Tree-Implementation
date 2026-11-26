@@ -276,7 +276,10 @@ class RedBlackTree<T> {
    }
 
     /*
-    * Deletion
+    * Deletes x from this and restores properties
+    * of Red-Black Tree after deletion.
+    * 
+    * 
     */
    public delete(x: Node1<T>) {
     let y = x;
@@ -312,6 +315,14 @@ class RedBlackTree<T> {
     this.size--;
    }
 
+   /*
+   * Replaces the sub-tree rooted at x with the sub-tree
+   * rooted at y.
+   * 
+   * This performs a constant number of operations independent
+   * on the size of this.
+   * Therefore, transplant is in O(1).
+   */
    private transplant(x: Node1<T>, y: Node1<T>) {
     if (x.parent === null) {
         this.root = y;
@@ -323,6 +334,14 @@ class RedBlackTree<T> {
     y.parent = x.parent;
    }
 
+   /*
+   * Returns the node that contains the minimum value
+   * rooted at x.
+   * 
+   * Continously goes left until reaches bottom. At worst
+   * goes through the entire height of this.
+   * Therefore, treeMin is in O(h).
+   */
    private treeMin(x: Node1<T>): Node1<T> {
     while (x.left !== null) {
         x = x.left;
@@ -330,6 +349,11 @@ class RedBlackTree<T> {
     return x;
    }
 
+   /*
+   *Restores properties of Red-Black Tree after deletion.
+   *
+   * 
+   */
    private deleteFixUp(x: Node1<T>) {
     while (x.parent !== null && x.color === "BLACK") {
         let xParent = x.parent;
@@ -388,6 +412,15 @@ class RedBlackTree<T> {
     x.color = "BLACK";
    }
 
+   /*
+   * Returns node with value k or null if no
+   * node contains value k.
+   * 
+   * In worst case, no node has value k or it
+   * is at the bottom of tree, so goes through the
+   * entire height of the tree.
+   * Therefore, searchNode is in O(h).
+   */
    public searchNode(k: T): Node1<T> | null {
     let x = this.root;
     while (x !== null && this.compare(k, x.value) !== 0) {
@@ -400,6 +433,12 @@ class RedBlackTree<T> {
     return x;
     }
 
+    /*
+    * Returns the number of nodes in this.
+    *
+    * Size is constantly updated through function calls.
+    * Therefore, sizeOfTree is in O(1).
+    */
     public sizeOfTree(): number {
         return this.size;
     }
