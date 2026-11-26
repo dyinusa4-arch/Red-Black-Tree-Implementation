@@ -208,7 +208,101 @@ class RedBlackTree<T> {
     /*
     * Deletion
     */
-   public delete() {
+   public delete(x: Node1<T>) {
+    let y = x;
+    let color = y.color;
+    let z: Node1<T>;
+    if (x.left === null && x.right !== null) {
+        //let z = x.right;
+        this.transplant(x, x.right);
+    } else if (x.right === null && x.left !== null) {
+        this.transplant(x, x.left);
+    } else if (x.right !== null){
+        y = this.treeMin(x.right);
+        color = y.color;
+        z = y.right;
+        if (y.parent === x && z !== null) {
+            z.parent = y;
+        } else if (y.right !== null){
+            this.transplant(y, y.right);
+            y.right = x.right;
+            y.right.parent = y;
+        }
+        this.transplant(x, y);
+        y.left = x.left;
+        if (y !== null && y.left !== null) {
+            y.left.parent = y;
+            y.color = z?.color;
+        }
+    }
+    if (color === "BLACK") {
+        this.deleteFixUp(z);
+    }
+   }
 
+   private transplant(x: Node1<T>, xChild: Node1<T>) {
+
+   }
+
+   private treeMin(x: Node1<T>): Node1<T> {
+    return x;
+   }
+
+   private deleteFixUp(x: Node1<T>) {
+    while (x.parent !== null && x.color === "BLACK") {
+        let xParent = x.parent;
+        if (x === xParent.left && xParent.right !== null) {
+            let s = xParent.right;
+            if (s.color === "RED") {
+                s.color = "BLACK";
+                xParent.color = "RED";
+                this.leftRotate(xParent);
+                s = xParent.right;
+            }
+            if (s.left !== null && s.right !== null && s.left.color === "BLACK" && s.right.color === "BLACK") {
+                s.color = "RED";
+                x = xParent;
+            } else {
+                if (s.right !== null && s.left !== null && s.right.color == "BLACK") {
+                    s.left.color = "BLACK";
+                    s.color = "RED";
+                    this.rightRotate(s);
+                    s = xParent.right;
+                }
+                s.color = xParent.color;
+                xParent.color = "BLACK";
+                if (s.right !== null) {
+                    s.right.color = "BLACK";
+                }
+                this.leftRotate(xParent);
+            }
+        } else if (x === xParent.right && xParent.left !== null) {
+            let s = xParent.left;
+            if (s.color === "RED") {
+                s.color = "BLACK";
+                xParent.color = "RED";
+                this.rightRotate(xParent);
+                s = xParent.left;
+            }
+            if (s.left !== null && s.right !== null && s.left.color === "BLACK" && s.right.color === "BLACK") {
+                s.color = "RED";
+                x = xParent;
+            } else {
+                if (s.right !== null && s.left !== null && s.left.color == "BLACK") {
+                    s.right.color = "BLACK";
+                    s.color = "RED";
+                    this.leftRotate(s);
+                    s = xParent.left;
+                }
+                s.color = xParent.color;
+                xParent.color = "BLACK";
+                if (s.left !== null) {
+                    s.left.color = "BLACK";
+                }
+                this.rightRotate(xParent);
+            }
+        }
+    }
+    x.color = "BLACK";
    }
 }
