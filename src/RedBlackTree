@@ -307,7 +307,7 @@ class RedBlackTree<T> {
         this.transplant(x, x.left);
 
         //case where x has two children
-    } else if (x.right !== null && y.right !== null){
+    } else {
         y = this.treeMin(x.right);
         color = y.color;
         z = y.right;
