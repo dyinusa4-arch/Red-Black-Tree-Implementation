@@ -563,4 +563,31 @@ class RedBlackTree<T> {
     public sizeOfTree(): number {
         return this.size;
     }
+
+    /*
+    * Prints every node in this in non-decreasing
+    * order.
+    * 
+    * Visits and prints every node once.
+    * Therefore, inOrderTreeWalk is in O(n).
+    */
+    public inOrderTreeWalk() {
+        this.inOrderWalkHelper(this.root);
+    }
+
+    /*
+    * Helper method for inOrderTreeWalk.
+    *
+    * If size of left and right are about n/2 we have
+    * T(n) = 2T(n/2) + c which in in O(n).
+    */
+    private inOrderWalkHelper(x: Node1<T> | null) {
+        if (x === null) {
+            return;
+        }
+
+        this.inOrderWalkHelper(x.left);
+        console.log(x.value);
+        this.inOrderWalkHelper(x.right);
+    }
 }
