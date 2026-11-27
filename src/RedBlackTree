@@ -279,37 +279,61 @@ class RedBlackTree<T> {
     * Deletes x from this and restores properties
     * of Red-Black Tree after deletion.
     * 
-    * 
+    * Delete performs costant operations, assignments,
+    * and comparisons. It calls transplant which is in 
+    * O(1) and possibly calls treeMin and deleteFixUp once which 
+    * are both in O(h).
+    * Therefore, delete is in O(h).
     */
    public delete(x: Node1<T>) {
     let y = x;
     let color = y.color;
-    let z: Node1<T>;
-    if (x.left === null && x.right !== null) {
+    let z: Node1<T> | null = null;
+    let zParent: Node1<T> | null = null;
+    let zIsLeftChild = false;
+
+    //Case where x has no left child
+    if (x.left === null) {
         z = x.right;
+        zParent = x.parent;
+        zIsLeftChild = zParent !== null &&  zParent.left === x;
         this.transplant(x, x.right);
-    } else if (x.right === null && x.left !== null) {
+
+        //Case where x has no right child
+    } else if (x.right === null) {
+        z = x.left;
+        zParent = x.parent;
+        zIsLeftChild = zParent !== null && zParent.left === x;
         this.transplant(x, x.left);
+
+        //case where x has two children
     } else if (x.right !== null && y.right !== null){
         y = this.treeMin(x.right);
         color = y.color;
         z = y.right;
-        if (y.parent === x && z !== null) {
-            z.parent = y;
-        } else if (y.right !== null){
+        if (y.parent === x) {
+            zParent = y;
+            zIsLeftChild = false;
+
+            if (z !== null) {
+                z.parent = y;
+            }
+        } else {
+            zParent = y.parent;
+            zIsLeftChild = zParent !== null && zParent.left === y;
             this.transplant(y, y.right);
             y.right = x.right;
             y.right.parent = y;
         }
         this.transplant(x, y);
         y.left = x.left;
-        if (z !== null && y.left !== null) {
-            y.left.parent = y;
-            y.color = z.color;
-        }
+        y.left.parent = y;
+        y.color = x.color;
     }
+
+    //Restores Red-Black properties is a black node was removed.
     if (color === "BLACK") {
-        this.deleteFixUp(z);
+        this.deleteFixUp(z, zParent, zIsLeftChild);
     }
 
     this.size--;
