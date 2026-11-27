@@ -323,7 +323,7 @@ class RedBlackTree<T> {
    * on the size of this.
    * Therefore, transplant is in O(1).
    */
-   private transplant(x: Node1<T>, y: Node1<T>) {
+   private transplant(x: Node1<T>, y: Node1<T> | null) {
     if (x.parent === null) {
         this.root = y;
     } else if (x === x.parent.left) {
@@ -331,7 +331,10 @@ class RedBlackTree<T> {
     } else {
         x.parent.right = y;
     }
-    y.parent = x.parent;
+    
+    if (y !== null) {
+        y.parent = x.parent;
+    }
    }
 
    /*
